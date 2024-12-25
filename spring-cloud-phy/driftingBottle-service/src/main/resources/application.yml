@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: driftingBottle-service
+  config:
+    import: nacos:driftingBottle-service-dev.yml
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
