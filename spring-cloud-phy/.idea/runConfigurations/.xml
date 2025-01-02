@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="用户管理" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="usermanagement-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.links.usermanagementservice.UsermanagementServiceApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
