@@ -6,7 +6,7 @@
 		<groupId>org.links</groupId>
 		<artifactId>spring-cloud-phy</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath>../pom.xml</relativePath>
 	</parent>
     <groupId>com.links</groupId>
 	<artifactId>usermanagement-service</artifactId>
@@ -27,6 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
+		<spring-boot.version>3.0.0</spring-boot.version>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -92,11 +93,40 @@
 
 	<build>
 		<plugins>
+			<!-- Maven Compiler Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- Spring Boot Maven Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+				<configuration>
+					<mainClass>org.links.usermanagementservice.UsermanagementServiceApplication</mainClass>
+					<skip>false</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>repackage</id>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+
+
+
 
 </project>
