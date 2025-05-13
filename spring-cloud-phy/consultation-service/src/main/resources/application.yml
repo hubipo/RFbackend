@@ -10,3 +10,29 @@ spring:
       config:
         server-addr: localhost:8848
         file-extension: yml
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/consultation_db?useSSL=false
+    username: root
+    password: sr200416
+    driver-class-name: com.mysql.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    org.links: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss
+
+# 可选：预留千问 API Key 配置（可在 Nacos 中覆盖）
+dashscope:
+  api-key: sk-cf168940b9ee48a98735c17333ef43a2

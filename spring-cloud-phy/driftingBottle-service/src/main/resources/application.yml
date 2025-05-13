@@ -13,7 +13,8 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/driftbottle_db?useSSL=false
+    url: jdbc:mysql://localhost:3306/driftbottle_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+
     username: root
     password: sr200416
     driver-class-name: com.mysql.jdbc.Driver
