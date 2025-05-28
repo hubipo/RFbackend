@@ -13,7 +13,8 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Service for managing drifting bottles.
+ * 漂流瓶服务类。
+ * <p>提供发布、捞取、评论、删除、回收、再投放和查询漂流瓶相关的核心业务逻辑。</p>
  */
 @Service
 public class BottleService {
@@ -29,7 +30,11 @@ public class BottleService {
     }
 
     /**
-     * Helper to get the user ID by phone number.
+     * 根据手机号获取用户 ID。
+     *
+     * @param phoneNumber 用户手机号
+     * @return 用户 ID
+     * @throws CustomException 如果用户服务不可用或查询失败
      */
     private Long getUserIdByPhoneNumber(String phoneNumber) {
         try {
@@ -40,21 +45,31 @@ public class BottleService {
     }
 
     /**
-     * Create a drifting bottle.
+     * 发布一个新的漂流瓶。
+     *
+     * @param request 包含手机号和漂流瓶内容的请求对象
+     * @return 新创建漂流瓶的唯一标识符（ID）
+     * @throws CustomException 如果手机号无法解析为用户ID，抛出异常
      */
     @Transactional
-    public void createBottle(BottleRequest request) {
+    public Long createBottle(BottleRequest request) {
         Long ownerId = getUserIdByPhoneNumber(request.getPhoneNumber());
         Bottle bottle = new Bottle();
         bottle.setOwnerId(ownerId);
         bottle.setContent(request.getContent());
         bottle.setStatus("IN_OCEAN");
         bottle.setCreatedAt(LocalDateTime.now());
+
         bottleRepository.save(bottle);
+        return bottle.getId();
     }
 
+
     /**
-     * Pick a random drifting bottle.
+     * 随机捞取一个不属于当前用户的漂流瓶。
+     *
+     * @param phoneNumber 当前用户手机号
+     * @return 漂流瓶响应对象
      */
     @Transactional(readOnly = true)
     public BottleResponse pickBottle(String phoneNumber) {
@@ -75,7 +90,10 @@ public class BottleService {
     }
 
     /**
-     * Comment on a drifting bottle.
+     * 对指定漂流瓶添加评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param request 评论请求，包含手机号和评论内容
      */
     @Transactional
     public void commentBottle(Long bottleId, BottleCommentRequest request) {
@@ -91,7 +109,11 @@ public class BottleService {
     }
 
     /**
-     * Delete a drifting bottle and its comments.
+     * 删除漂流瓶及其所有评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 请求用户手机号
+     * @param isAdmin 是否为管理员
      */
     @Transactional
     public void deleteBottle(Long bottleId, String phoneNumber, Boolean isAdmin) {
@@ -107,7 +129,10 @@ public class BottleService {
     }
 
     /**
-     * Recycle a drifting bottle into the user's inventory.
+     * 回收漂流瓶至用户背包（设置为 RECYCLED 状态）。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 用户手机号
      */
     @Transactional
     public void recycleBottle(Long bottleId, String phoneNumber) {
@@ -123,7 +148,10 @@ public class BottleService {
     }
 
     /**
-     * Throw a drifting bottle back into the ocean.
+     * 再次将漂流瓶投放到海洋（设置为 IN_OCEAN 状态）。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 用户手机号
      */
     @Transactional
     public void throwBottle(Long bottleId, String phoneNumber) {
@@ -139,7 +167,11 @@ public class BottleService {
     }
 
     /**
-     * Get the status of the user's drifting bottles.
+     * 获取当前用户的漂流瓶（可选按状态过滤）。
+     *
+     * @param phoneNumber 用户手机号
+     * @param status 状态（可为 null，代表全部）
+     * @return 符合条件的漂流瓶响应列表
      */
     @Transactional(readOnly = true)
     public List<BottleResponse> getBottlesByUserAndStatus(String phoneNumber, String status) {
@@ -147,10 +179,8 @@ public class BottleService {
 
         List<Bottle> bottles;
         if (status == null || status.isEmpty()) {
-            // 如果状态为空，则返回所有漂流瓶
             bottles = bottleRepository.findByOwnerId(userId);
         } else {
-            // 根据状态筛选漂流瓶
             bottles = bottleRepository.findByOwnerIdAndStatus(userId, status);
         }
 
@@ -164,9 +194,11 @@ public class BottleService {
                 .toList();
     }
 
-
     /**
-     * Get all comments for a drifting bottle.
+     * 获取指定漂流瓶的所有评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @return 评论响应列表
      */
     @Transactional(readOnly = true)
     public List<BottleCommentResponse> getBottleComments(Long bottleId) {

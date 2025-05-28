@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Controller for managing drifting bottles.
+ * 漂流瓶服务接口
+ * <p>提供发布、捞取、评论、删除、回收、投放、查询漂流瓶等接口。</p>
  */
 @RestController
 @RequestMapping("/api/v1/bottle")
@@ -21,16 +23,34 @@ public class BottleController {
     }
 
     /**
-     * Create a new drifting bottle.
+     * D01 - 发布一个新的漂流瓶。
+     *
+     * @param request 包含手机号和漂流瓶内容的请求体 {@link BottleRequest}
+     * @return 返回一个 JSON 对象，包含漂流瓶 ID 和发布成功提示信息
+     *
+     * 示例返回：
+     * <pre>
+     * {
+     *   "message": "漂流瓶发布成功",
+     *   "bottleId": 123
+     * }
+     * </pre>
      */
     @PostMapping
-    public ResponseEntity<?> createBottle(@RequestBody BottleRequest request) {
-        bottleService.createBottle(request);
-        return ResponseEntity.ok("漂流瓶发布成功");
+    public ResponseEntity<Map<String, Object>> createBottle(@RequestBody BottleRequest request) {
+        Long bottleId = bottleService.createBottle(request);
+        Map<String, Object> response = Map.of(
+                "message", "漂流瓶发布成功",
+                "bottleId", bottleId
+        );
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * Pick a drifting bottle from the ocean.
+     * D02 - 随机捞取一个不属于当前用户的漂流瓶。
+     *
+     * @param phoneNumber 当前用户手机号
+     * @return 捞取到的漂流瓶信息
      */
     @GetMapping("/pick")
     public ResponseEntity<BottleResponse> pickBottle(@RequestParam String phoneNumber) {
@@ -38,7 +58,11 @@ public class BottleController {
     }
 
     /**
-     * Comment on a drifting bottle.
+     * D03 - 对指定漂流瓶添加评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param request 包含评论内容和手机号的请求体
+     * @return 评论成功提示
      */
     @PostMapping("/{bottleId}/comment")
     public ResponseEntity<?> commentBottle(
@@ -49,7 +73,12 @@ public class BottleController {
     }
 
     /**
-     * Delete a drifting bottle and its comments.
+     * D04 - 删除指定漂流瓶及其所有评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 发起删除请求的手机号
+     * @param isAdmin 是否为管理员，默认为 false
+     * @return 删除成功提示
      */
     @DeleteMapping("/{bottleId}")
     public ResponseEntity<?> deleteBottle(
@@ -61,7 +90,11 @@ public class BottleController {
     }
 
     /**
-     * Recycle a drifting bottle into the user's inventory.
+     * D05 - 将漂流瓶回收到用户背包中。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 用户手机号
+     * @return 回收成功提示
      */
     @PutMapping("/{bottleId}/recycle")
     public ResponseEntity<?> recycleBottle(@PathVariable Long bottleId, @RequestParam String phoneNumber) {
@@ -70,7 +103,11 @@ public class BottleController {
     }
 
     /**
-     * Throw a drifting bottle back into the ocean.
+     * D06 - 将漂流瓶再次投放到海洋中。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @param phoneNumber 用户手机号
+     * @return 投放成功提示
      */
     @PutMapping("/{bottleId}/throw")
     public ResponseEntity<?> throwBottle(@PathVariable Long bottleId, @RequestParam String phoneNumber) {
@@ -79,7 +116,11 @@ public class BottleController {
     }
 
     /**
-     * Get the status of the user's drifting bottles.
+     * D07 - 获取用户的漂流瓶列表，可按状态筛选。
+     *
+     * @param phoneNumber 用户手机号
+     * @param status 漂流瓶状态（可选：IN_OCEAN、RECYCLED）
+     * @return 漂流瓶列表
      */
     @GetMapping("/list")
     public ResponseEntity<List<BottleResponse>> getBottlesByUserAndStatus(
@@ -89,9 +130,11 @@ public class BottleController {
         return ResponseEntity.ok(bottles);
     }
 
-
     /**
-     * Get all comments for a drifting bottle.
+     * D08 - 获取指定漂流瓶的所有评论。
+     *
+     * @param bottleId 漂流瓶 ID
+     * @return 评论列表
      */
     @GetMapping("/{bottleId}/comments")
     public ResponseEntity<List<BottleCommentResponse>> getBottleComments(@PathVariable Long bottleId) {
