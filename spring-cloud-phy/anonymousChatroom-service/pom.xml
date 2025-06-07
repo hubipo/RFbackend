@@ -7,7 +7,11 @@
         <artifactId>spring-cloud-phy</artifactId>
         <version>1.0-SNAPSHOT</version>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <relativePath>../pom.xml</relativePath>
+=======
+        <relativePath>../pom.xml</relativePath><!-- lookup parent from repository -->
+>>>>>>> Stashed changes
 =======
         <relativePath>../pom.xml</relativePath><!-- lookup parent from repository -->
 >>>>>>> Stashed changes
