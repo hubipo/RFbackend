@@ -15,27 +15,18 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
-//注册成组件
 @Component
-//定义websocket服务器端，它的功能主要是将目前的类定义成一个websocket服务器端。注解的值将被用于监听用户连接的终端访问URL地址
 @ServerEndpoint("/websocket/{username}")
-//如果不想每次都写private  final Logger logger = LoggerFactory.getLogger(当前类名.class); 可以用注解@Slf4j;可以直接调用log.info
 @Slf4j
 public class WebSocket {
-
-    //实例一个session，这个session是websocket的session
     private Session session;
 
-    //存放当前用户名
     private String userName;
 
-    //存放需要接受消息的用户名
     private String toUserName;
 
-    //存放在线的用户数量
     private static Integer userNumber = 0;
 
-    //存放websocket的集合
     private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
 
     //前端请求时一个websocket时
