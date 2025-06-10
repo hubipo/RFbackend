@@ -15,8 +15,8 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/usermanagement_db?useSSL=false
     username: root
-    password: sr200416
-    driver-class-name: com.mysql.jdbc.Driver
+    password: MyNewPass
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
