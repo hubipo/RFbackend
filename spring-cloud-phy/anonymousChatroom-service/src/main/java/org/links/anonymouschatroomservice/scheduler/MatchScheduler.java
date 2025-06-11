@@ -1,20 +1,21 @@
 package org.links.anonymouschatroomservice.scheduler;
 
-import org.links.anonymouschatroomservice.service.MatchService;
+
+import org.links.anonymouschatroomservice.service.ChatService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MatchScheduler {
-    private final MatchService matchService;
+    private final ChatService chatService;
 
-    public MatchScheduler(MatchService matchService) {
-        this.matchService = matchService;
+    public MatchScheduler(ChatService chatService) {
+        this.chatService = chatService;
     }
 
     // 每秒尝试匹配一次
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 200)
     public void doMatch() {
-        matchService.attemptMatch();
+        chatService.attemptMatch();
     }
 }
