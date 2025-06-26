@@ -7,6 +7,14 @@
         <option value="$PROJECT_DIR$/spring-cloud-phy/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/spring-cloud-phy/diary-service/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-cloud-phy/healthAnalysis-service/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-cloud-phy/order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-cloud-phy/payment-service/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />

@@ -12,13 +12,9 @@
     <!--引入其他的服务 -->
     <modules>
         <module>usermanagement-service</module>
-        <module>diary-service</module>
         <module>consultation-service</module>
-        <module>order-service</module>
-        <module>payment-service</module>
         <module>anonymousChatroom-service</module>
         <module>driftingBottle-service</module>
-        <module>healthAnalysis-service</module>
     </modules>
 
     <properties>
