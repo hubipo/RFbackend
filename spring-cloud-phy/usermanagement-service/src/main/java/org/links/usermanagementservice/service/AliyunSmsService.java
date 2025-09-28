@@ -18,13 +18,13 @@ public class AliyunSmsService {
     /**
      * 阿里云短信服务的 AccessKey ID。
      */
-    @Value("${aliyun.sms.access-key-id}")
+    @Value("********")
     private String accessKeyId;
 
     /**
      * 阿里云短信服务的 AccessKey Secret。
      */
-    @Value("${aliyun.sms.access-key-secret}")
+    @Value("************")
     private String accessKeySecret;
 
     /**
